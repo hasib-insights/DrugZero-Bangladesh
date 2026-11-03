@@ -1,0 +1,122 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Brand extension tokens (DrugZero Bangladesh) */
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-tint: var(--brand-tint);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/*
+  DrugZero Bangladesh — light theme only.
+  Palette (fixed by brand guidelines):
+    - Background:        #FFFFFF
+    - Primary (forest):  #1E4937
+    - Accent (soft):     #A7C7A2 (decorative only — never used as text on white)
+    - Neutral section:   #F3F5F0
+    - Foreground text:   #1B2A22 (≈15:1 on white)
+    - Secondary text:    #52605A (≈6.8:1 on white — WCAG AA)
+*/
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #1b2a22;
+  --card: #ffffff;
+  --card-foreground: #1b2a22;
+  --popover: #ffffff;
+  --popover-foreground: #1b2a22;
+  --primary: #1e4937;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f5f0;
+  --secondary-foreground: #1e4937;
+  --muted: #f3f5f0;
+  --muted-foreground: #52605a;
+  --accent: #e9f1e6;
+  --accent-foreground: #1e4937;
+  --destructive: #b42318;
+  --border: #e2e8e1;
+  --input: #d5ded3;
+  --ring: #1e4937;
+  --brand-soft: #a7c7a2;
+  --brand-tint: #eef4ec;
+  --chart-1: #1e4937;
+  --chart-2: #a7c7a2;
+  --chart-3: #52605a;
+  --chart-4: #6f9a6b;
+  --chart-5: #d5ded3;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1b2a22;
+  --sidebar-primary: #1e4937;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e9f1e6;
+  --sidebar-accent-foreground: #1e4937;
+  --sidebar-border: #e2e8e1;
+  --sidebar-ring: #1e4937;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Visible, consistent keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Standard page container */
+  .container-site {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  /* Single-line clamp for card summaries */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
