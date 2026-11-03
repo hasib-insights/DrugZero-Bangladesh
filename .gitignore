@@ -38,6 +38,10 @@ yarn-error.log*
 .vercel
 
 
+# runtime database (contains form submissions — never commit user data)
+/db/
+*.db
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
