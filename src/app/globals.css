@@ -120,3 +120,46 @@
     text-wrap: balance;
   }
 }
+
+/*
+  ── Bangla (বাংলা) typography ──────────────────────────────────────────
+  Applied when <html> carries .lang-bn (set by the language switcher and
+  by the pre-paint bootstrap script in layout.tsx). Hind Siliguri is
+  loaded via next/font in layout.tsx.
+
+  Bangla script needs more vertical room than Latin text and must never
+  be letter-spaced or artificially condensed, so we relax tracking and
+  increase line-height when the Bangla version is active.
+
+  These rules are intentionally UNLAYERED: unlayered declarations take
+  precedence over Tailwind's @layer utilities regardless of specificity,
+  so they reliably override leading-* / tracking-* utilities.
+*/
+html.lang-bn body {
+  font-family: var(--font-hind-siliguri), var(--font-geist-sans), ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.7;
+}
+/* Body copy gets generous leading for Bangla conjuncts and matras. */
+html.lang-bn body p,
+html.lang-bn body li,
+html.lang-bn body figcaption,
+html.lang-bn body label,
+html.lang-bn body input,
+html.lang-bn body textarea,
+html.lang-bn body select,
+html.lang-bn body button {
+  line-height: 1.8;
+}
+/* Headings: roomier than Latin defaults, still clearly hierarchical. */
+html.lang-bn body h1,
+html.lang-bn body h2,
+html.lang-bn body h3,
+html.lang-bn body h4 {
+  line-height: 1.4;
+}
+/* Bangla has no letter-spacing tradition — undo Latin tracking values
+   (tracking-tight, tracking-wide, arbitrary tracking-[...] etc.). */
+html.lang-bn [class*="tracking-"] {
+  letter-spacing: normal;
+}

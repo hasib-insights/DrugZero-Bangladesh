@@ -6,8 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { interestAreas, volunteerSchema } from "@/lib/validation";
+import { useLanguage } from "@/components/site/language-provider";
+import {
+  interestAreas,
+  interestAreaLabels,
+  validationMessage,
+  volunteerSchema,
+} from "@/lib/validation";
 import { fieldErrors } from "@/lib/validation";
+import { tx } from "@/lib/i18n";
 
 type FormValues = {
   name: string;
@@ -28,6 +35,7 @@ const initialValues: FormValues = {
 };
 
 export function VolunteerForm() {
+  const { t } = useLanguage();
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<
@@ -56,7 +64,9 @@ export function VolunteerForm() {
     if (!parsed.success) {
       setErrors(fieldErrors(parsed.error));
       setStatus("error");
-      setStatusMessage("Please correct the highlighted fields and try again.");
+      setStatusMessage(
+        t(tx("Please correct the highlighted fields and try again.", "অনুগ্রহ করে চিহ্নিত ঘরগুলো সংশোধন করে আবার চেষ্টা করুন।"))
+      );
       return;
     }
 
@@ -75,16 +85,26 @@ export function VolunteerForm() {
         setErrors({});
         return;
       }
+      // Server errors carry message codes — translated for display.
       setErrors(data.errors ?? {});
       setStatus("error");
       setStatusMessage(
-        data.message ??
-          "Your application could not be saved. Please try again in a moment."
+        t(
+          tx(
+            "Your application could not be saved. Please try again in a moment.",
+            "আপনার আবেদন সংরক্ষণ করা যায়নি। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।"
+          )
+        )
       );
     } catch {
       setStatus("error");
       setStatusMessage(
-        "A network problem prevented your application from being saved. Please check your connection and try again."
+        t(
+          tx(
+            "A network problem prevented your application from being saved. Please check your connection and try again.",
+            "নেটওয়ার্ক সমস্যার কারণে আপনার আবেদন জমা হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।"
+          )
+        )
       );
     }
   }
@@ -99,15 +119,18 @@ export function VolunteerForm() {
           <CheckCircle2 className="mt-0.5 size-6 shrink-0 text-primary" aria-hidden="true" />
           <div>
             <h3 className="text-lg font-semibold text-foreground">
-              Thank you — your application has been received.
+              {t(tx("Thank you — your application has been received.", "ধন্যবাদ — আপনার আবেদন আমরা পেয়েছি।"))}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Your details have been saved and our team will review them. We will
-              reach out using the email address you provided. You can now close this
-              page or explore more ways to support our work.
+              {t(
+                tx(
+                  "Your details have been saved and our team will review them. We will reach out using the email address you provided. You can now close this page or explore more ways to support our work.",
+                  "আপনার দেওয়া তথ্য সংরক্ষিত হয়েছে এবং আমাদের দল তা পর্যালোচনা করবে। আপনার দেওয়া ইমেইল ঠিকানায় আমরা যোগাযোগ করব। এখন আপনি এই পেজটি বন্ধ করতে পারেন অথবা আমাদের কাজে সহযোগিতার আরও উপায় দেখতে পারেন।"
+                )
+              )}
             </p>
             <Button className="mt-5" variant="outline" onClick={() => setStatus("idle")}>
-              Submit another application
+              {t(tx("Submit another application", "আরেকটি আবেদন করুন"))}
             </Button>
           </div>
         </div>
@@ -118,7 +141,7 @@ export function VolunteerForm() {
   const fieldError = (key: string) =>
     errors[key] ? (
       <p id={`${key}-error`} className="mt-1.5 text-sm text-destructive">
-        {errors[key]}
+        {t(validationMessage(errors[key]))}
       </p>
     ) : null;
 
@@ -136,8 +159,8 @@ export function VolunteerForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="v-name">
-            Full name <span aria-hidden="true">*</span>
-            <span className="sr-only">(required)</span>
+            {t(tx("Full name", "পুরো নাম"))} <span aria-hidden="true">*</span>
+            <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
           </Label>
           <Input
             id="v-name"
@@ -156,8 +179,8 @@ export function VolunteerForm() {
         </div>
         <div>
           <Label htmlFor="v-email">
-            Email address <span aria-hidden="true">*</span>
-            <span className="sr-only">(required)</span>
+            {t(tx("Email address", "ইমেইল ঠিকানা"))} <span aria-hidden="true">*</span>
+            <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
           </Label>
           <Input
             id="v-email"
@@ -179,7 +202,10 @@ export function VolunteerForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="v-phone">
-            Phone <span className="font-normal text-muted-foreground">(optional)</span>
+            {t(tx("Phone", "মোবাইল নম্বর"))}{" "}
+            <span className="font-normal text-muted-foreground">
+              {t(tx("(optional)", "(ঐচ্ছিক)"))}
+            </span>
           </Label>
           <Input
             id="v-phone"
@@ -196,14 +222,14 @@ export function VolunteerForm() {
             className="mt-1.5"
           />
           <p id="phone-hint" className="mt-1.5 text-xs text-muted-foreground">
-            A Bangladeshi mobile number, e.g. 01712345678.
+            {t(tx("A Bangladeshi mobile number, e.g. 01712345678.", "বাংলাদেশি মোবাইল নম্বর, যেমন 01XXXXXXXXX।"))}
           </p>
           {fieldError("phone")}
         </div>
         <div>
           <Label htmlFor="v-area">
-            Area of interest <span aria-hidden="true">*</span>
-            <span className="sr-only">(required)</span>
+            {t(tx("Area of interest", "আগ্রহের ক্ষেত্র"))} <span aria-hidden="true">*</span>
+            <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
           </Label>
           <div className="relative mt-1.5">
             <select
@@ -218,11 +244,11 @@ export function VolunteerForm() {
               className="flex h-10 w-full appearance-none rounded-lg border border-input bg-background px-3 py-2 pr-9 text-sm text-foreground shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive"
             >
               <option value="" disabled>
-                Please select…
+                {t(tx("Please select…", "নির্বাচন করুন…"))}
               </option>
               {interestAreas.map((area) => (
                 <option key={area} value={area}>
-                  {area}
+                  {t(interestAreaLabels[area])}
                 </option>
               ))}
             </select>
@@ -243,13 +269,16 @@ export function VolunteerForm() {
 
       <div>
         <Label htmlFor="v-message">
-          Short message <span className="font-normal text-muted-foreground">(optional)</span>
+          {t(tx("Short message", "সংক্ষিপ্ত বার্তা"))}{" "}
+          <span className="font-normal text-muted-foreground">
+            {t(tx("(optional)", "(ঐচ্ছিক)"))}
+          </span>
         </Label>
         <Textarea
           id="v-message"
           name="message"
           rows={4}
-          placeholder="Tell us briefly why you would like to join, or ask us anything."
+          placeholder={t(tx("Tell us briefly why you would like to join, or ask us anything.", "কেন যুক্ত হতে চান, সংক্ষেপে লিখুন — অথবা যেকোনো প্রশ্ন করুন।"))}
           value={values.message}
           onChange={set("message")}
           aria-invalid={!!errors.message}
@@ -261,7 +290,7 @@ export function VolunteerForm() {
 
       {/* Honeypot — hidden from real users */}
       <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
-        <label htmlFor="v-website">Website</label>
+        <label htmlFor="v-website">{t(tx("Website", "ওয়েবসাইট"))}</label>
         <input
           id="v-website"
           name="website"
@@ -278,19 +307,23 @@ export function VolunteerForm() {
           {status === "submitting" ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              Sending…
+              {t(tx("Sending…", "পাঠানো হচ্ছে…"))}
             </>
           ) : (
-            "Submit Application"
+            t(tx("Submit Application", "আবেদন জমা দিন"))
           )}
         </Button>
         <p className="text-xs leading-relaxed text-muted-foreground">
-          Required fields are marked with *. We use your details only to respond to
-          your application — see our{" "}
+          {t(
+            tx(
+              "Required fields are marked with *. We use your details only to respond to your application — see our",
+              "আবশ্যক ঘরগুলো * দিয়ে চিহ্নিত। আপনার তথ্য আমরা শুধু আবেদনের উত্তর দিতে ব্যবহার করি — দেখুন আমাদের"
+            )
+          )}{" "}
           <a href="/privacy" className="underline underline-offset-2">
-            Privacy Policy
+            {t(tx("Privacy Policy", "গোপনীয়তা নীতি"))}
           </a>
-          .
+          {t(tx(".", "।"))}
         </p>
       </div>
     </form>

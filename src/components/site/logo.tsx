@@ -1,5 +1,9 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/components/site/language-provider";
 import { siteConfig } from "@/content/site";
+import { tx } from "@/lib/i18n";
 
 type LogoProps = {
   /** Public path of the official logo file, or null when it does not exist yet. */
@@ -15,13 +19,15 @@ type LogoProps = {
  *   unchanged and at natural aspect ratio.
  * - Until then, a neutral text wordmark is used as a placeholder.
  *   No replacement logo is invented.
+ * The wordmark itself is brand identity and is NOT translated.
  */
 export function Logo({ logoSrc, className, variant = "light" }: LogoProps) {
+  const { t } = useLanguage();
   if (logoSrc) {
     return (
       <img
         src={logoSrc}
-        alt={`${siteConfig.name} logo`}
+        alt={t(tx(`${siteConfig.name} logo`, `${siteConfig.name} লোগো`))}
         className={cn("h-10 w-auto", className)}
       />
     );
@@ -34,7 +40,8 @@ export function Logo({ logoSrc, className, variant = "light" }: LogoProps) {
           "inline-block size-3 rounded-full",
           variant === "onDark" ? "bg-brand-soft" : "bg-brand-soft"
         )}
-      />
+      >
+      </span>
       <span className="flex flex-col leading-none">
         <span
           className={cn(

@@ -3,19 +3,23 @@
 import { useMemo, useState } from "react";
 import { ActivityCard } from "@/components/site/activity-card";
 import { EmptyState } from "@/components/site/empty-state";
+import { useLanguage } from "@/components/site/language-provider";
 import {
   activityCategories,
+  activityCategoryLabels,
   getPastActivities,
   getUpcomingActivities,
   type Activity,
   type ActivityCategory,
 } from "@/content/activities";
 import { cn } from "@/lib/utils";
+import { tx } from "@/lib/i18n";
 
 type Tab = "upcoming" | "past";
 type CategoryFilter = "All" | ActivityCategory;
 
 export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
+  const { t } = useLanguage();
   const [tab, setTab] = useState<Tab>("upcoming");
   const [category, setCategory] = useState<CategoryFilter>("All");
 
@@ -39,8 +43,11 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
   if (activities.length === 0) {
     return (
       <EmptyState
-        title="No activities published yet"
-        description="When DrugZero Bangladesh announces or completes an activity, it will appear here with its date, location, and details. In the meantime, you can explore our programs or get in touch."
+        title={tx("No activities published yet", "এখনো কোনো কার্যক্রম প্রকাশিত হয়নি")}
+        description={tx(
+          "When DrugZero Bangladesh announces or completes an activity, it will appear here with its date, location, and details. In the meantime, you can explore our programs or get in touch.",
+          "DrugZero Bangladesh কোনো কার্যক্রম ঘোষণা বা সম্পন্ন করলে সেটি এখানে তারিখ, স্থান ও বিবরণসহ দেখা যাবে। ততক্ষণ পর্যন্ত আপনি আমাদের প্রোগ্রামগুলো দেখতে পারেন বা যোগাযোগ করতে পারেন।"
+        )}
       />
     );
   }
@@ -50,13 +57,13 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
       {/* Upcoming / Past toggle */}
       <div
         role="group"
-        aria-label="Filter activities by time"
+        aria-label={t(tx("Filter activities by time", "সময় অনুযায়ী কার্যক্রম ফিল্টার করুন"))}
         className="inline-flex rounded-lg border border-border bg-secondary p-1"
       >
         {(
           [
-            { key: "upcoming", label: "Upcoming", count: upcoming.length },
-            { key: "past", label: "Past", count: past.length },
+            { key: "upcoming", label: tx("Upcoming", "আসন্ন"), count: upcoming.length },
+            { key: "past", label: tx("Past", "অতীত"), count: past.length },
           ] as const
         ).map(({ key, label, count }) => (
           <button
@@ -71,14 +78,18 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            {label} <span className="text-muted-foreground">({count})</span>
+            {t(label)} <span className="text-muted-foreground">({count})</span>
           </button>
         ))}
       </div>
 
       {/* Category filters (only for categories that exist in the data) */}
       {availableCategories.length > 1 && (
-        <div role="group" aria-label="Filter activities by category" className="flex flex-wrap gap-2">
+        <div
+          role="group"
+          aria-label={t(tx("Filter activities by category", "ধরন অনুযায়ী কার্যক্রম ফিল্টার করুন"))}
+          className="flex flex-wrap gap-2"
+        >
           {(["All", ...availableCategories] as CategoryFilter[]).map((c) => (
             <button
               key={c}
@@ -92,7 +103,7 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
                   : "border-border bg-background text-muted-foreground hover:border-primary hover:text-primary"
               )}
             >
-              {c}
+              {c === "All" ? t(tx("All", "সব")) : t(activityCategoryLabels[c])}
             </button>
           ))}
         </div>
@@ -103,10 +114,10 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
         <EmptyState
           title={
             tab === "upcoming"
-              ? "No upcoming activities in this category"
-              : "No past activities in this category"
+              ? tx("No upcoming activities in this category", "এই ধরনের কোনো আসন্ন কার্যক্রম নেই")
+              : tx("No past activities in this category", "এই ধরনের কোনো অতীত কার্যক্রম নেই")
           }
-          description="Try another category or time filter."
+          description={tx("Try another category or time filter.", "অন্য ধরন বা সময়ের ফিল্টার বেছে দেখুন।")}
           className="py-8"
         />
       ) : (

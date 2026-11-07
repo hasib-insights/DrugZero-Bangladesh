@@ -1,39 +1,41 @@
 /** Main navigation — order here is the order shown in the header and footer. */
+import { tx, type LText } from "@/lib/i18n";
+
 export type NavItem = {
-  title: string;
+  title: LText;
   /** Optional shorter label used in the header nav to keep one line. */
-  short?: string;
+  short?: LText;
   href: string;
 };
 
 export const mainNav: NavItem[] = [
-  { title: "Home", href: "/" },
-  { title: "About Us", short: "About", href: "/about" },
-  { title: "Our Programs", short: "Programs", href: "/programs" },
-  { title: "Activities & Events", short: "Activities", href: "/activities" },
-  { title: "Impact & Reports", short: "Impact", href: "/impact" },
-  { title: "Get Involved", href: "/get-involved" },
-  { title: "Donate", href: "/donate" },
-  { title: "Contact", href: "/contact" },
+  { title: tx("Home", "হোম"), href: "/" },
+  { title: tx("About Us", "আমাদের সম্পর্কে"), short: tx("About", "সম্পর্কে"), href: "/about" },
+  { title: tx("Our Programs", "আমাদের প্রোগ্রাম"), short: tx("Programs", "প্রোগ্রাম"), href: "/programs" },
+  { title: tx("Activities & Events", "কার্যক্রম ও ইভেন্ট"), short: tx("Activities", "কার্যক্রম"), href: "/activities" },
+  { title: tx("Impact & Reports", "প্রভাব ও প্রতিবেদন"), short: tx("Impact", "প্রভাব"), href: "/impact" },
+  { title: tx("Get Involved", "যুক্ত হোন"), href: "/get-involved" },
+  { title: tx("Donate", "অনুদান দিন"), href: "/donate" },
+  { title: tx("Contact", "যোগাযোগ"), href: "/contact" },
 ];
 
-export const footerNav: { heading: string; items: NavItem[] }[] = [
+export const footerNav: { heading: LText; items: NavItem[] }[] = [
   {
-    heading: "Explore",
+    heading: tx("Explore", "ঘুরে দেখুন"),
     items: [
-      { title: "About Us", href: "/about" },
-      { title: "Activities & Events", href: "/activities" },
-      { title: "Impact & Reports", href: "/impact" },
-      { title: "Contact", href: "/contact" },
+      { title: tx("About Us", "আমাদের সম্পর্কে"), href: "/about" },
+      { title: tx("Activities & Events", "কার্যক্রম ও ইভেন্ট"), href: "/activities" },
+      { title: tx("Impact & Reports", "প্রভাব ও প্রতিবেদন"), href: "/impact" },
+      { title: tx("Contact", "যোগাযোগ"), href: "/contact" },
     ],
   },
   {
-    heading: "Take Part",
+    heading: tx("Take Part", "অংশ নিন"),
     items: [
-      { title: "Our Programs", href: "/programs" },
-      { title: "Get Involved", href: "/get-involved" },
-      { title: "Donate", href: "/donate" },
-      { title: "Privacy Policy", href: "/privacy" },
+      { title: tx("Our Programs", "আমাদের প্রোগ্রাম"), href: "/programs" },
+      { title: tx("Get Involved", "যুক্ত হোন"), href: "/get-involved" },
+      { title: tx("Donate", "অনুদান দিন"), href: "/donate" },
+      { title: tx("Privacy Policy", "গোপনীয়তা নীতি"), href: "/privacy" },
     ],
   },
 ];

@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { contactSchema, fieldErrors } from "@/lib/validation";
+import { useLanguage } from "@/components/site/language-provider";
+import { contactSchema, fieldErrors, validationMessage } from "@/lib/validation";
+import { tx } from "@/lib/i18n";
 
 type FormValues = {
   name: string;
@@ -25,6 +27,7 @@ const initialValues: FormValues = {
 };
 
 export function ContactForm() {
+  const { t } = useLanguage();
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
@@ -53,7 +56,9 @@ export function ContactForm() {
     if (!parsed.success) {
       setErrors(fieldErrors(parsed.error));
       setStatus("error");
-      setStatusMessage("Please correct the highlighted fields and try again.");
+      setStatusMessage(
+        t(tx("Please correct the highlighted fields and try again.", "অনুগ্রহ করে চিহ্নিত ঘরগুলো সংশোধন করে আবার চেষ্টা করুন।"))
+      );
       return;
     }
 
@@ -72,15 +77,26 @@ export function ContactForm() {
         setErrors({});
         return;
       }
+      // Server errors carry message codes — translated for display.
       setErrors(data.errors ?? {});
       setStatus("error");
       setStatusMessage(
-        data.message ?? "Your message could not be sent. Please try again in a moment."
+        t(
+          tx(
+            "Your message could not be sent. Please try again in a moment.",
+            "আপনার বার্তা পাঠানো যায়নি। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।"
+          )
+        )
       );
     } catch {
       setStatus("error");
       setStatusMessage(
-        "A network problem prevented your message from being sent. Please check your connection and try again."
+        t(
+          tx(
+            "A network problem prevented your message from being sent. Please check your connection and try again.",
+            "নেটওয়ার্ক সমস্যার কারণে আপনার বার্তা পাঠানো যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।"
+          )
+        )
       );
     }
   }
@@ -95,14 +111,18 @@ export function ContactForm() {
           <CheckCircle2 className="mt-0.5 size-6 shrink-0 text-primary" aria-hidden="true" />
           <div>
             <h3 className="text-lg font-semibold text-foreground">
-              Message received — thank you.
+              {t(tx("Message received — thank you.", "বার্তা পেয়েছি — ধন্যবাদ।"))}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Your message has been saved and our team will read it as soon as we
-              can. If you shared an email address, we will reply there.
+              {t(
+                tx(
+                  "Your message has been saved and our team will read it as soon as we can. If you shared an email address, we will reply there.",
+                  "আপনার বার্তা সংরক্ষিত হয়েছে; আমাদের দল যত দ্রুত সম্ভব তা পড়বে। ইমেইল ঠিকানা দিয়ে থাকলে সেখানেই উত্তর দেওয়া হবে।"
+                )
+              )}
             </p>
             <Button className="mt-5" variant="outline" onClick={() => setStatus("idle")}>
-              Send another message
+              {t(tx("Send another message", "আরেকটি বার্তা পাঠান"))}
             </Button>
           </div>
         </div>
@@ -113,7 +133,7 @@ export function ContactForm() {
   const fieldError = (key: string) =>
     errors[key] ? (
       <p id={`${key}-error`} className="mt-1.5 text-sm text-destructive">
-        {errors[key]}
+        {t(validationMessage(errors[key]))}
       </p>
     ) : null;
 
@@ -131,8 +151,8 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="c-name">
-            Full name <span aria-hidden="true">*</span>
-            <span className="sr-only">(required)</span>
+            {t(tx("Full name", "পুরো নাম"))} <span aria-hidden="true">*</span>
+            <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
           </Label>
           <Input
             id="c-name"
@@ -151,8 +171,8 @@ export function ContactForm() {
         </div>
         <div>
           <Label htmlFor="c-email">
-            Email address <span aria-hidden="true">*</span>
-            <span className="sr-only">(required)</span>
+            {t(tx("Email address", "ইমেইল ঠিকানা"))} <span aria-hidden="true">*</span>
+            <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
           </Label>
           <Input
             id="c-email"
@@ -173,13 +193,16 @@ export function ContactForm() {
 
       <div>
         <Label htmlFor="c-subject">
-          Subject <span className="font-normal text-muted-foreground">(optional)</span>
+          {t(tx("Subject", "বিষয়"))}{" "}
+          <span className="font-normal text-muted-foreground">
+            {t(tx("(optional)", "(ঐচ্ছিক)"))}
+          </span>
         </Label>
         <Input
           id="c-subject"
           name="subject"
           type="text"
-          placeholder="What is your message about?"
+          placeholder={t(tx("What is your message about?", "আপনার বার্তাটি কী বিষয়ে?"))}
           value={values.subject}
           onChange={set("subject")}
           aria-invalid={!!errors.subject}
@@ -191,15 +214,15 @@ export function ContactForm() {
 
       <div>
         <Label htmlFor="c-message">
-          Message <span aria-hidden="true">*</span>
-          <span className="sr-only">(required)</span>
+          {t(tx("Message", "বার্তা"))} <span aria-hidden="true">*</span>
+          <span className="sr-only">{t(tx("(required)", "(আবশ্যক)"))}</span>
         </Label>
         <Textarea
           id="c-message"
           name="message"
           rows={5}
           required
-          placeholder="Write your message here."
+          placeholder={t(tx("Write your message here.", "এখানে আপনার বার্তা লিখুন।"))}
           value={values.message}
           onChange={set("message")}
           aria-required="true"
@@ -212,7 +235,7 @@ export function ContactForm() {
 
       {/* Honeypot — hidden from real users */}
       <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
-        <label htmlFor="c-website">Website</label>
+        <label htmlFor="c-website">{t(tx("Website", "ওয়েবসাইট"))}</label>
         <input
           id="c-website"
           name="website"
@@ -229,19 +252,23 @@ export function ContactForm() {
           {status === "submitting" ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              Sending…
+              {t(tx("Sending…", "পাঠানো হচ্ছে…"))}
             </>
           ) : (
-            "Send Message"
+            t(tx("Send Message", "বার্তা পাঠান"))
           )}
         </Button>
         <p className="text-xs leading-relaxed text-muted-foreground">
-          Required fields are marked with *. We use your details only to reply to
-          your message — see our{" "}
+          {t(
+            tx(
+              "Required fields are marked with *. We use your details only to reply to your message — see our",
+              "আবশ্যক ঘরগুলো * দিয়ে চিহ্নিত। আপনার তথ্য আমরা শুধু বার্তার উত্তর দিতে ব্যবহার করি — দেখুন আমাদের"
+            )
+          )}{" "}
           <a href="/privacy" className="underline underline-offset-2">
-            Privacy Policy
+            {t(tx("Privacy Policy", "গোপনীয়তা নীতি"))}
           </a>
-          .
+          {t(tx(".", "।"))}
         </p>
       </div>
     </form>

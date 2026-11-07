@@ -13,19 +13,42 @@ site updates itself about two minutes later (see `DEPLOYMENT.md` §6).
 
 ---
 
+## 0.5 Writing for both languages (English + বাংলা)
+
+The site is fully bilingual. Visitors switch with the **বাংলা | English**
+toggle in the navigation bar; the choice is remembered on their device.
+
+All display text is stored as a pair using the `tx()` helper:
+
+```ts
+tx("English text", "বাংলা টেক্সট")
+```
+
+When you add or edit content, **always fill in both languages** so no visitor
+sees a half-translated page. The only exceptions are brand identity items
+(the name "DrugZero Bangladesh", the logo) and URL slugs — these stay as they
+are in both languages.
+
+Quick style notes for the Bangla versions: use standard, professional Bangla
+(আপনি form), keep numbers/dates readable (Bangla numerals appear
+automatically on dates), and prefer natural phrasing over word-for-word
+translation.
+
+---
+
 ## 1. Publishing an activity or event
 
 Open `src/content/activities.ts` and add one object to the `activities` list:
 
 ```ts
 {
-  slug: "campus-awareness-session-aug-2026",       // unique, lowercase-with-dashes
-  title: "Campus Awareness Session — Dhaka College",
+  slug: "campus-awareness-session-aug-2026",       // unique, lowercase-with-dashes (not translated)
+  title: tx("Campus Awareness Session — Dhaka College", "ক্যাম্পাস সচেতনতা অধিবেশন — ঢাকা কলেজ"),
   date: "2026-08-21",                              // YYYY-MM-DD
   endDate: "2026-08-21",                           // optional (multi-day)
-  location: "Dhaka College, Dhaka",                // optional
-  category: "Educational Program",                 // one of the listed categories
-  description: "A 90-minute interactive session with first-year students…",
+  location: tx("Dhaka College, Dhaka", "ঢাকা কলেজ, ঢাকা"),                    // optional
+  category: "Educational Program",                 // one of the listed categories (key stays English)
+  description: tx("A 90-minute interactive session with first-year students…", "প্রথম বর্ষের শিক্ষার্থীদের সাথে ৯০ মিনিটের আন্তঃক্রিয়ামূলক অধিবেশন…"),
   image: "/images/activities/campus-session.jpg",  // optional
   programSlug: "educational-programs",             // optional — links to a program
 },
@@ -58,10 +81,10 @@ Open `src/content/reports.ts` and add to `verifiedStats`:
 
 ```ts
 {
-  label: "Awareness sessions delivered",
+  label: tx("Awareness sessions delivered", "আয়োজিত সচেতনতা অধিবেশন"),
   value: "24",
-  period: "January – June 2026",
-  source: "Internal activity log",
+  period: tx("January – June 2026", "জানুয়ারি – জুন ২০২৬"),
+  source: tx("Internal activity log", "অভ্যন্তরীণ কার্যক্রম রেজিস্টার"),
 },
 ```
 
@@ -76,9 +99,9 @@ that is the point of the page.
 
 ```ts
 {
-  title: "Annual Report 2025",
-  period: "2025",
-  summary: "Programs, activities, and financial summary for 2025.",
+  title: tx("Annual Report 2025", "বার্ষিক প্রতিবেদন ২০২৫"),
+  period: tx("2025", "২০২৫"),
+  summary: tx("Programs, activities, and financial summary for 2025.", "২০২৫ সালের প্রোগ্রাম, কার্যক্রম ও আর্থিক সারসংক্ষেপ।"),
   fileUrl: "/reports/annual-report-2025.pdf",
   publishedAt: "2026-03-15",
 },
@@ -90,7 +113,7 @@ The "Team & leadership" section is **hidden until at least one verified entry
 exists** in `src/content/team.ts`. Add a person only with their consent:
 
 ```ts
-{ name: "Full Name", role: "President", bio: "One or two factual sentences.", photo: "/images/team/name.jpg" },
+{ name: "Full Name", role: tx("President", "সভাপতি"), bio: tx("One or two factual sentences.", "এক-দুই বাক্যের প্রকৃত পরিচয়।"), photo: "/images/team/name.jpg" },
 ```
 
 ## 6. Adding contact details and social links

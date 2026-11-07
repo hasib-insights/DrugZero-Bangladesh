@@ -6,18 +6,20 @@
  * Add a person only with their verified consent and details:
  *
  * {
- *   name: "Full Name",
- *   role: "President",
- *   bio: "One or two factual sentences.",
- *   photo: "/images/team/full-name.jpg", // optional
+ *   name: "Full Name",                      // person names are NOT translated
+ *   role: tx("President", "সভাপতি"),
+ *   bio: tx("One or two factual sentences.", "এক-দুই বাক্যের প্রকৃত পরিচয়।"),
+ *   photo: "/images/team/full-name.jpg",    // optional
  * }
  *
  * Do not add invented names, roles, or biographies.
  */
+import { tx, type LText } from "@/lib/i18n";
+
 export type TeamMember = {
   name: string;
-  role: string;
-  bio: string;
+  role: LText;
+  bio: LText;
   photo?: string;
 };
 

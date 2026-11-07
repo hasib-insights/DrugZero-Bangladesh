@@ -5,16 +5,20 @@
  * Add one entry to the `activities` array below and save the file — the
  * site updates automatically (no other code changes needed).
  *
+ * Display text is bilingual: tx("English", "বাংলা"). The `category` value
+ * must be one of the English keys in `activityCategories` (it is stored,
+ * never displayed directly — the matching Bangla label shows automatically).
+ *
  * Example entry:
  *
  * {
  *   slug: "campus-awareness-session-2025",
- *   title: "Campus Awareness Session — Dhaka College",
+ *   title: tx("Campus Awareness Session — Dhaka College", "ক্যাম্পাস সচেতনতা অধিবেশন — ঢাকা কলেজ"),
  *   date: "2025-08-21",                 // ISO date "YYYY-MM-DD" (required)
  *   endDate: "2025-08-21",              // optional, for multi-day events
- *   location: "Dhaka College, Dhaka",   // optional
- *   category: "Educational Program",    // see categories below
- *   description: "A 90-minute interactive session with students on the risks of drug use and where to find support.",
+ *   location: tx("Dhaka College, Dhaka", "ঢাকা কলেজ, ঢাকা"),
+ *   category: "Educational Program",
+ *   description: tx("A 90-minute interactive session …", "৯০ মিনিটের আন্তঃক্রিয়ামূলক অধিবেশন …"),
  *   image: "/images/activities/campus-session.jpg", // optional; leave out if no photo
  *   programSlug: "educational-programs", // optional — links it to a program page
  * },
@@ -25,6 +29,7 @@
  * • Omit `image` when there is no photo; the card renders cleanly without one.
  * ────────────────────────────────────────────────────────────────────────
  */
+import { tx, type LText } from "@/lib/i18n";
 
 export const activityCategories = [
   "Awareness Campaign",
@@ -35,16 +40,24 @@ export const activityCategories = [
 
 export type ActivityCategory = (typeof activityCategories)[number];
 
+/** Display labels for each category key, in both languages. */
+export const activityCategoryLabels: Record<ActivityCategory, LText> = {
+  "Awareness Campaign": tx("Awareness Campaign", "সচেতনতা প্রচারণা"),
+  "Educational Program": tx("Educational Program", "শিক্ষামূলক কর্মসূচি"),
+  "Community Outreach": tx("Community Outreach", "কমিউনিটি আউটরিচ"),
+  "Observance Day": tx("Observance Day", "দিবস পালন"),
+};
+
 export type Activity = {
   slug: string;
-  title: string;
+  title: LText;
   /** ISO date string, e.g. "2025-08-21" */
   date: string;
   /** Optional end date for multi-day events. */
   endDate?: string;
-  location?: string;
+  location?: LText;
   category: ActivityCategory;
-  description: string;
+  description: LText;
   /** Optional image path, e.g. "/images/activities/my-photo.jpg" */
   image?: string;
   /** Optional link to a program in programs.ts */
