@@ -20,7 +20,13 @@ type CategoryFilter = "All" | ActivityCategory;
 
 export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
   const { t } = useLanguage();
-  const [tab, setTab] = useState<Tab>("upcoming");
+  // Land on the tab that actually has content — visitors should never see an
+  // empty list first when there are published activities to show.
+  const [tab, setTab] = useState<Tab>(() =>
+    getUpcomingActivities(activities).length === 0 && activities.length > 0
+      ? "past"
+      : "upcoming"
+  );
   const [category, setCategory] = useState<CategoryFilter>("All");
 
   const { upcoming, past } = useMemo(() => {
@@ -123,8 +129,11 @@ export function ActivitiesBrowser({ activities }: { activities: Activity[] }) {
       ) : (
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
           {filtered.map((activity) => (
-            <li key={activity.slug}>
-              <ActivityCard activity={activity} />
+            <li
+              key={activity.slug}
+              className={activity.gallery ? "sm:col-span-2 lg:col-span-3" : undefined}
+            >
+              <ActivityCard activity={activity} expanded={Boolean(activity.gallery)} />
             </li>
           ))}
         </ul>
