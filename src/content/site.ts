@@ -23,12 +23,16 @@ export const siteConfig = {
   ),
 
   /**
-   * Official logo.
-   * Place the official logo file at: public/images/logo.png
-   * (PNG with transparent background, at least 320px wide recommended).
-   * Until the file exists, a neutral text wordmark is displayed.
+   * Official logo (public path documented for reference; rendering uses
+   * findOfficialLogo() in src/lib/logo.ts).
+   * Official assets live in public/images/:
+   *   logo.svg          — official file as provided (white headline text;
+   *                       for the brand's dark-green surfaces)
+   *   logo-on-light.svg — derived light-surface variant with identical
+   *                       geometry, used on the site's white/light surfaces
+   * Until a file exists, a neutral text wordmark is displayed.
    */
-  logoPath: "/images/logo.png",
+  logoPath: "/images/logo-on-light.svg",
 
   /** Verified contact details — fill in only what the organization confirms. */
   contact: {

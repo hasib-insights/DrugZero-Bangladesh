@@ -59,3 +59,6 @@ server.log
 /skills/
 # GitHub OAuth device-flow credentials (NEVER commit)
 local-github-*
+
+# user upload staging area (never commit)
+/upload/

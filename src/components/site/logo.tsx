@@ -15,8 +15,9 @@ type LogoProps = {
 
 /**
  * Brand lockup.
- * - When the official logo file exists (public/images/logo.png) it is shown
- *   unchanged and at natural aspect ratio.
+ * - When the official logo files exist (public/images/logo.svg and the
+ *   light-surface variant logo-on-light.svg) the variant matching the
+ *   surrounding surface is shown unchanged, at natural aspect ratio.
  * - Until then, a neutral text wordmark is used as a placeholder.
  *   No replacement logo is invented.
  * The wordmark itself is brand identity and is NOT translated.
@@ -28,7 +29,7 @@ export function Logo({ logoSrc, className, variant = "light" }: LogoProps) {
       <img
         src={logoSrc}
         alt={t(tx(`${siteConfig.name} logo`, `${siteConfig.name} লোগো`))}
-        className={cn("h-10 w-auto", className)}
+        className={cn("h-12 w-auto", className)}
       />
     );
   }
