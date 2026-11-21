@@ -95,15 +95,15 @@ export function HomePageBody() {
           <figure>
             <div className="overflow-hidden rounded-xl border border-border">
               <Image
-                src="/images/hero-classroom.jpg"
+                src="/images/activities/blue-sky-school-leaflet-distribution.jpg"
                 alt={t(
                   tx(
-                    "Illustrative photo: a teacher leading an awareness class with students raising their hands",
-                    "নিদর্শন হিসেবে ব্যবহৃত ছবি: একজন শিক্ষক সচেতনতামূলক ক্লাস নিচ্ছেন, শিক্ষার্থীরা হাত তুলে আছে"
+                    "A DrugZero Bangladesh volunteer distributing anti-drug awareness leaflets among students seated in the classroom at Blue Sky School",
+                    "ব্লু স্কাই স্কুলের শ্রেণিকক্ষে বসে থাকা শিক্ষার্থীদের মাঝে মাদকবিরোধী সচেতনতামূলক লিফলেট বিতরণ করছেন DrugZero Bangladesh-এর একজন স্বেচ্ছাসেবক"
                   )
                 )}
-                width={1477}
-                height={1108}
+                width={2040}
+                height={1536}
                 priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="aspect-[4/3] w-full object-cover"
@@ -112,8 +112,8 @@ export function HomePageBody() {
             <figcaption className="mt-2.5 text-xs text-muted-foreground">
               {t(
                 tx(
-                  "Illustrative image — not a photograph of a DrugZero Bangladesh activity.",
-                  "নিদর্শন হিসেবে ব্যবহৃত ছবি — এটি DrugZero Bangladesh-এর কার্যক্রমের আলোকচিত্র নয়।"
+                  "Photo: leaflet distribution at the anti-drug awareness program at Blue Sky School.",
+                  "ছবি: ব্লু স্কাই স্কুলের মাদকবিরোধী সচেতনতামূলক কর্মসূচিতে লিফলেট বিতরণ।"
                 )
               )}
             </figcaption>
