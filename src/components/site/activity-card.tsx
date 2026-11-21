@@ -31,7 +31,12 @@ export function ActivityCard({
     <article className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-sm">
       {activity.gallery && activity.gallery.length > 0 ? (
         <div className="p-3 pb-0">
-          <ActivityGallery images={activity.gallery} />
+          {/* Larger galleries go three-across on desktop so the photo grid
+              stays compact and the title/description stay in view. */}
+          <ActivityGallery
+            images={activity.gallery}
+            className={activity.gallery.length > 2 ? "sm:grid-cols-3" : undefined}
+          />
         </div>
       ) : activity.image ? (
         <img

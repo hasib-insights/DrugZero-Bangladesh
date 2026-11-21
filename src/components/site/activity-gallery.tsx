@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils";
 /**
  * Photo gallery for an activity.
  *
- * - Responsive grid: two columns on desktop, two compact columns on mobile.
+ * - Responsive grid: two columns by default (three on `sm`+ screens when the
+ *   caller passes `sm:grid-cols-3` for larger galleries).
  * - Photos keep their natural aspect ratio (w-full, h-auto) — never cropped,
  *   stretched, or upscaled beyond their size.
  * - Subtle hover effect (gentle zoom + magnifier affordance) and

@@ -138,6 +138,34 @@ export const activities: Activity[] = [
           "ব্লু স্কাই স্কুলের শ্রেণিকক্ষে বসে থাকা শিক্ষার্থীদের মাঝে মাদকবিরোধী সচেতনতামূলক লিফলেট বিতরণ করছেন DrugZero Bangladesh-এর একজন স্বেচ্ছাসেবক"
         ),
       },
+      {
+        src: "/images/activities/blue-sky-school-students-reading-leaflets.jpg",
+        alt: tx(
+          "Students of Blue Sky School attentively reading the anti-drug awareness leaflets during the program, with the DrugZero Bangladesh banner visible in the background",
+          "ব্লু স্কাই স্কুলের মাদকবিরোধী সচেতনতামূলক কর্মসূচিতে মনোযোগ দিয়ে মাদকবিরোধী লিফলেট পড়ছে শিক্ষার্থীরা — পেছনে DrugZero Bangladesh-এর ব্যানার"
+        ),
+      },
+      {
+        src: "/images/activities/blue-sky-school-awareness-speech.jpg",
+        alt: tx(
+          "A DrugZero Bangladesh volunteer delivering the anti-drug awareness talk at the Blue Sky School program, with the DrugZero Bangladesh banner behind him",
+          "ব্লু স্কাই স্কুলের মাদকবিরোধী সচেতনতামূলক অধিবেশনে বক্তব্য রাখছেন DrugZero Bangladesh-এর একজন স্বেচ্ছাসেবক — পেছনে DrugZero Bangladesh-এর ব্যানার"
+        ),
+      },
+      {
+        src: "/images/activities/blue-sky-school-interactive-session.jpg",
+        alt: tx(
+          "DrugZero Bangladesh volunteers engaging with the participants during the interactive anti-drug awareness session at Blue Sky School, with the DrugZero Bangladesh banner on display",
+          "ব্লু স্কাই স্কুলের মাদকবিরোধী সচেতনতামূলক আন্তঃক্রিয়ামূলক অধিবেশনে অংশগ্রহণকারীদের সঙ্গে যুক্ত DrugZero Bangladesh-এর স্বেচ্ছাসেবকেরা — পেছনে DrugZero Bangladesh-এর ব্যানার"
+        ),
+      },
+      {
+        src: "/images/activities/blue-sky-school-open-discussion.jpg",
+        alt: tx(
+          "Students and participants joining an open discussion with DrugZero Bangladesh volunteers at the Blue Sky School awareness program",
+          "ব্লু স্কাই স্কুলের মাদকবিরোধী সচেতনতামূলক কর্মসূচিতে DrugZero Bangladesh-এর স্বেচ্ছাসেবকদের সঙ্গে খোলা আলোচনায় অংশ নিচ্ছেন শিক্ষার্থী ও উপস্থিত ব্যক্তিরা"
+        ),
+      },
     ],
     programSlug: "awareness-campaigns",
   },
